@@ -39,7 +39,7 @@ const userSchema = new Schema(
     imageUrl: String,
     favourites: [
       {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "Game",
         set: (v: string) => (v === "" ? null : v),
       },
