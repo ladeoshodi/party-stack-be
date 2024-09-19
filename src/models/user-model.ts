@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import validator from "validator";
+import bcrypt from "bcrypt";
 
 const { Schema } = mongoose;
 
@@ -47,6 +48,14 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 );
+
+// hash passwords before mongoose model saves
+userSchema.pre("save", function (next) {
+  // hash user password
+  this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync());
+
+  next();
+});
 
 const User = mongoose.model("User", userSchema);
 
