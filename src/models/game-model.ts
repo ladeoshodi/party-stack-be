@@ -4,12 +4,15 @@ const { Schema } = mongoose;
 
 const gameSchema = new Schema(
   {
-    title: { type: String, required: [true, "A game title is required"] },
+    title: {
+      type: String,
+      required: [true, "A game title is required"],
+    },
     imageUrl: String,
     creator: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: [true, "The game creator is required"],
     },
     description: {
       type: String,
