@@ -1,7 +1,8 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
+import userRouter from "./routes/user-routes";
 
 dotenv.config();
 
@@ -27,8 +28,18 @@ if (!DB_CONNECTION) {
 }
 
 // routes
-app.use("/api", (req, res) => {
-  res.send("Hello World");
+app.use("/api/user", userRouter);
+
+// error handling
+app.use((e: any, req: Request, res: Response, next: NextFunction) => {
+  if (e.status >= 400 && e.status <= 499) {
+    res.status(e.status).json({ message: e.message });
+  } else {
+    console.error(e);
+    res
+      .status(500)
+      .json({ message: "An error occured, please try again later" });
+  }
 });
 
 async function start() {
