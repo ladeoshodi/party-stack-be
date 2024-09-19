@@ -2,5 +2,5 @@
 
 ## Technologies
 
-- Typescript
+- TypeScript
 - Express
