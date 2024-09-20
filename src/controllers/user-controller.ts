@@ -116,6 +116,10 @@ const userController = {
     }
   },
   async getCurrentUser(req: Request, res: Response, next: NextFunction) {
+    /* 
+      #swagger.tags = ["User"]
+      #swagger.description = "Get current user"
+    */
     try {
       res.json(req.currentUser);
     } catch (e) {
