@@ -115,6 +115,15 @@ const userController = {
       }
     }
   },
+  async getCurrentUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      res.json(req.currentUser);
+    } catch (e) {
+      next(e);
+    }
+  },
+  async updateCurrentUser(req: Request, res: Response, next: NextFunction) {},
+  async deleteCurrentUser(req: Request, res: Response, next: NextFunction) {},
 };
 
 export default userController;

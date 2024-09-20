@@ -54,3 +54,24 @@ describe("Testing Registration and Login", () => {
     expect(res.status).toBe(StatusCodes.NOT_FOUND);
   });
 });
+
+describe("Testing User CRUD operations", () => {
+  test("Should get current logged in user", async () => {
+    // get a token
+    const res = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = res.body.token;
+
+    // get current logged in user
+    const currentUser = await api.get("/api/user").set("Authorization", token);
+    expect(currentUser.status).toBe(StatusCodes.OK);
+    expect(currentUser.body.username).toBe("testuser1");
+  });
+  test("Should not get current user if not logged in", async () => {
+    // get current logged in user
+    const res = await api.get("/api/user");
+    expect(res.status).toBe(StatusCodes.UNAUTHORIZED);
+  });
+});
