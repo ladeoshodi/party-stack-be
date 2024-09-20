@@ -57,6 +57,13 @@ userSchema.pre("save", function (next) {
   next();
 });
 
+function validatePassword(
+  plainPassword: string,
+  hashedPassword: string
+): boolean {
+  return bcrypt.compareSync(plainPassword, hashedPassword);
+}
+
 const User = mongoose.model("User", userSchema);
 
 async function initialiseDBIndex() {
@@ -65,4 +72,4 @@ async function initialiseDBIndex() {
 
 initialiseDBIndex();
 
-export { User };
+export { User, validatePassword };
