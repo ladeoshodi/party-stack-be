@@ -35,8 +35,13 @@ const userController = {
       res.status(201).json({
         message: `Registration successful - Username: ${newUser.username}`,
       });
-    } catch (e) {
-      if (e instanceof Error) {
+    } catch (e: any) {
+      if (e.code === 11000 || e.codeName === "DuplicateKey") {
+        next({
+          status: 400,
+          message: "Duplicate Error: username/email already exists",
+        });
+      } else if (e instanceof Error) {
         next({ status: 400, message: e.message });
       } else {
         next(e);
@@ -126,7 +131,39 @@ const userController = {
       next(e);
     }
   },
-  async updateCurrentUser(req: Request, res: Response, next: NextFunction) {},
+  async updateCurrentUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const currentUser = await User.findById(req.currentUser).select(
+        "+password"
+      );
+
+      if (!currentUser) {
+        throw {
+          status: 404,
+          message: "User not found",
+        };
+      }
+
+      currentUser.set(req.body);
+      await currentUser.save();
+
+      // query the current user to return the user object with the password hidden
+      const updatedUser = await User.findById(currentUser);
+
+      res.json(updatedUser);
+    } catch (e: any) {
+      if (e.code === 11000 || e.codeName === "DuplicateKey") {
+        next({
+          status: 400,
+          message: "Duplicate Error: username/email already exists",
+        });
+      } else if (e instanceof Error) {
+        next({ status: 400, message: e.message });
+      } else {
+        next(e);
+      }
+    }
+  },
   async deleteCurrentUser(req: Request, res: Response, next: NextFunction) {},
 };
 
