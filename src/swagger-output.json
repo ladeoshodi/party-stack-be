@@ -1,0 +1,91 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Party Stack API with Swagger",
+    "version": "1.0.0",
+    "description": "This is the API documentation for Party Stack API",
+    "license": {
+      "name": "Licensed Under MIT",
+      "url": "https://spdx.org/licenses/MIT.html"
+    },
+    "contact": {
+      "name": "Lade Oshodi",
+      "url": "https://github.com/ladeoshodi"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api",
+      "description": "Development server"
+    }
+  ],
+  "paths": {
+    "/user/register": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Register a new user",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userSchema"
+              },
+              "example": {
+                "username": "swaggeruser",
+                "email": "swaggeruser@example.com",
+                "password": "#Passw0rd",
+                "passwordConfirmation": "#Passw0rd"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "userSchema": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "Username of user"
+          },
+          "email": {
+            "type": "string",
+            "example": "email of user"
+          },
+          "password": {
+            "type": "string",
+            "example": "password of user"
+          }
+        },
+        "required": [
+          "username",
+          "email",
+          "password"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "Authorization": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "Authorization": []
+    }
+  ]
+}

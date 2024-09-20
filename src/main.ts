@@ -2,15 +2,11 @@ import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
-import userRouter from "./routes/user-routes";
+import swaggerOutput from "./swagger-output.json";
+import swaggerUi from "swagger-ui-express";
+import { routes } from "./routes";
 
 dotenv.config();
-
-// middlewares
-const app = express();
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 // PORT and DB setup
 const PORT = process.env.PORT || 3000;
@@ -27,8 +23,19 @@ if (!DB_CONNECTION) {
   };
 }
 
+// middlewares
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // routes
-app.use("/api/user", userRouter);
+app.use("/api", routes);
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerOutput, { explorer: true })
+);
 
 // error handling
 app.use((e: any, req: Request, res: Response, next: NextFunction) => {
