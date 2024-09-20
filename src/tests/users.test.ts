@@ -82,7 +82,7 @@ describe("Testing User CRUD operations", () => {
     });
     const token = res.body.token;
 
-    // get current logged in user
+    // update current logged in user
     const currentUser = await api
       .put("/api/user")
       .set("Authorization", token)
@@ -93,5 +93,19 @@ describe("Testing User CRUD operations", () => {
     expect(currentUser.status).toBe(StatusCodes.OK);
     expect(currentUser.body.username).toBe("updatedusername");
     expect(currentUser.body.email).toBe("updatedemail@example.com");
+  });
+  test("Should delete current user", async () => {
+    // get a token
+    const res = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = res.body.token;
+
+    // delete current logged in user
+    const currentUser = await api
+      .delete("/api/user")
+      .set("Authorization", token);
+    expect(currentUser.status).toBe(StatusCodes.NO_CONTENT);
   });
 });
