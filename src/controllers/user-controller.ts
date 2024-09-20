@@ -44,6 +44,24 @@ const userController = {
   },
 
   async login(req: Request, res: Response, next: NextFunction) {
+    /* 
+      #swagger.tags = ["User"]
+      #swagger.description = "Login a user"
+      #swagger.requestBody = {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              $ref: "#/components/schemas/userSchema"
+            },
+            example: {
+              email: "swaggeruser@example.com",
+              password: "#Passw0rd"
+            }
+          }
+        }
+      }
+    */
     try {
       const incomingEmail: string = req.body.email;
       const incomingPassword: string = req.body.password;

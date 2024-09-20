@@ -51,25 +51,25 @@
     },
     "/user/login": {
       "post": {
-        "description": "",
+        "tags": [
+          "User"
+        ],
+        "description": "Login a user",
         "responses": {
           "200": {
             "description": "OK"
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "example": "any"
-                  },
-                  "password": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/userSchema"
+              },
+              "example": {
+                "email": "swaggeruser@example.com",
+                "password": "#Passw0rd"
               }
             }
           }
