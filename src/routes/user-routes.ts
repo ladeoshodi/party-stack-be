@@ -9,5 +9,6 @@ userRouter.post("/register", sanitizeRoute, userController.register);
 userRouter.post("/login", sanitizeRoute, userController.login);
 userRouter.get("/", secureRoute, userController.getCurrentUser);
 userRouter.put("/", secureRoute, userController.updateCurrentUser);
+userRouter.delete("/", secureRoute, userController.deleteCurrentUser);
 
 export default userRouter;

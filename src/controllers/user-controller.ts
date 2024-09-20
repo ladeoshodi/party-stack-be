@@ -164,7 +164,18 @@ const userController = {
       }
     }
   },
-  async deleteCurrentUser(req: Request, res: Response, next: NextFunction) {},
+  async deleteCurrentUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      await req.currentUser.deleteOne();
+      res.status(204).end();
+    } catch (e) {
+      if (e instanceof Error) {
+        next({ status: 400, message: e.message });
+      } else {
+        next(e);
+      }
+    }
+  },
 };
 
 export default userController;
