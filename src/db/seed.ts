@@ -1,24 +1,11 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 import { User } from "../models/user-model";
 import { Game } from "../models/game-model";
 import { Comment } from "../models/comment-model";
-
-dotenv.config();
-const DB_CONNECTION =
-  process.env.NODE_ENV === "production"
-    ? process.env.DB_CONNECTION || ""
-    : "mongodb://localhost:27017/party-stack";
-
-if (!DB_CONNECTION) {
-  throw {
-    status: 500,
-    message: "DB_CONNECTION is not set",
-  };
-}
+import { MONGODB_URI } from "../config/environment";
 
 async function seed() {
-  await mongoose.connect(DB_CONNECTION);
+  await mongoose.connect(MONGODB_URI);
   console.log("Connected to the database! 🔥");
 
   // delete all existing data

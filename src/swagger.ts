@@ -1,9 +1,5 @@
 import swaggerAutogen from "swagger-autogen";
-import dotenv from "dotenv";
-
-dotenv.config();
-
-const PORT = process.env.PORT || 3000;
+import { PORT } from "./config/environment";
 
 const options = {
   openapi: "3.1.0",

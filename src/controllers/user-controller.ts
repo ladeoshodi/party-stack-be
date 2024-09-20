@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { User, validatePassword } from "../models/user-model";
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../config/environment";
 
 const userController = {
   async register(req: Request, res: Response, next: NextFunction) {
@@ -82,8 +83,6 @@ const userController = {
       const isValidPw = validatePassword(incomingPassword, foundUser.password);
       if (isValidPw) {
         // issue unique jwt for the user
-        const JWT_SECRET = process.env.JWT_SECRET;
-
         if (!JWT_SECRET) {
           throw {
             status: 500,
