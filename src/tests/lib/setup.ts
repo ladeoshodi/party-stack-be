@@ -1,45 +1,72 @@
-import Movies from "../../models/movies";
-import Users from "../../models/users";
+import mongoose from "mongoose";
+import { User } from "../../models/user-model";
+import { Game } from "../../models/game-model";
+import { Comment } from "../../models/comment-model";
+import { MONGODB_URI } from "../../config/environment";
 
-function getMovieData(user: any) {
+function getCommentData(users: any[], games: any[]) {
   return [
     {
-      name: "Diehard",
-      year: 1988,
-      image:
-        "https://m.media-amazon.com/images/M/MV5BZDViZDAzMjAtY2E1YS00OThkLWE2YTMtYzBmYWRjMWY0MDhkXkEyXkFqcGdeQXRzdGFzaWVr._V1_QL75_UY281_CR19,0,500,281_.jpg",
-      user,
-      comments: [
-        {
-          content: "This is a great movie.",
-          user,
-        },
-      ],
+      text: "This is the first comment for game 1",
+      author: users[0],
+      game: games[0],
     },
     {
-      name: "The Grinch",
-      year: 2000,
-      image:
-        "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/jim-carey-the-grinch-1665564473.jpg?crop=0.969xw:0.664xh;0,0.0444xh&resize=640:*",
-      user,
+      text: "This is the second comment for game 1",
+      author: users[1],
+      game: games[0],
     },
     {
-      name: "Home Alone",
-      year: 1990,
-      image: "TODO find a good image",
-      user,
+      text: "This is the first comment for game 2",
+      author: users[0],
+      game: games[1],
     },
   ];
 }
 
-const userData = {
-  username: "nick",
-  email: "nick@nick.com",
-  password: "helloworldA1$%",
-};
-
-export default async function setup() {
-  const user = await Users.create(userData);
-  const movieData = getMovieData(user._id);
-  await Movies.create(movieData);
+function getGameData(users: any[]) {
+  return [
+    {
+      title: "Test Game 1",
+      imageUrl: "https://images.unsplash.com/photo-1522069213448-443a614da9b6",
+      creator: users[0],
+      description: "This is a description for game 1",
+      gameSetup: "This is the setup for game 1",
+      howToPlay: "This is how to play game 1",
+      rating: 3,
+    },
+    {
+      title: "Test Game 2",
+      imageUrl: "https://images.unsplash.com/photo-1642056446796-8c7d1dcb630b",
+      creator: users[1],
+      description: "This is a description for game 2",
+      gameSetup: "This is the setup for game 2",
+      howToPlay: "This is how to play game 2",
+      rating: 4,
+    },
+  ];
 }
+
+const userData = [
+  {
+    username: "testuser1",
+    email: "testuser1@example.com",
+    password: "#T3stus3r",
+  },
+  {
+    username: "testuser2",
+    email: "testuser2@example.com",
+    password: "#T3stus3r",
+  },
+];
+
+async function setup() {
+  await mongoose.connect(MONGODB_URI);
+  const users = await User.create(userData);
+  const gameData = getGameData(users);
+  const games = await Game.create(gameData);
+  const commentData = getCommentData(users, games);
+  await Comment.create(commentData);
+}
+
+export default setup;

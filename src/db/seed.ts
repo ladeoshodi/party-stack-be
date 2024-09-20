@@ -4,35 +4,28 @@ import { Game } from "../models/game-model";
 import { Comment } from "../models/comment-model";
 import { MONGODB_URI } from "../config/environment";
 
-async function seed() {
-  await mongoose.connect(MONGODB_URI);
-  console.log("Connected to the database! 🔥");
-
-  // delete all existing data
-  console.log("Wiping database clean");
-  await User.deleteMany({});
-  await Game.deleteMany({});
-  await Comment.deleteMany({});
-
-  // user data
-  const userData = [
+function getCommentData(users: any[], games: any[]) {
+  return [
     {
-      username: "seeduser1",
-      email: "seeduser@example.com",
-      password: "#S33dus3r",
+      text: "This is the first comment for game 1",
+      author: users[0],
+      game: games[0],
     },
     {
-      username: "seeduser2",
-      email: "seeduser2@example.com",
-      password: "#S33dus3r",
+      text: "This is the second comment for game 1",
+      author: users[1],
+      game: games[0],
+    },
+    {
+      text: "This is the first comment for game 2",
+      author: users[0],
+      game: games[1],
     },
   ];
+}
 
-  console.log("Creating users in the db");
-  const users = await User.create(userData);
-
-  // game data
-  const gameData = [
+function getGameData(users: any[]) {
+  return [
     {
       title: "Game 1",
       imageUrl: "https://images.unsplash.com/photo-1522069213448-443a614da9b6",
@@ -52,30 +45,41 @@ async function seed() {
       rating: 4,
     },
   ];
+}
+
+// user data
+const userData = [
+  {
+    username: "seeduser1",
+    email: "seeduser@example.com",
+    password: "#S33dus3r",
+  },
+  {
+    username: "seeduser2",
+    email: "seeduser2@example.com",
+    password: "#S33dus3r",
+  },
+];
+
+async function seed() {
+  await mongoose.connect(MONGODB_URI);
+  console.log("Connected to the database! 🔥");
+
+  // delete all existing data
+  console.log("Wiping database clean");
+  await User.deleteMany({});
+  await Game.deleteMany({});
+  await Comment.deleteMany({});
+
+  console.log("Creating users in the db");
+  const users = await User.create(userData);
 
   console.log("Creating games in the db");
+  const gameData = getGameData(users);
   const games = await Game.create(gameData);
 
-  // comment data
-  const commentData = [
-    {
-      text: "This is the first comment for game 1",
-      author: users[0],
-      game: games[0],
-    },
-    {
-      text: "This is the second comment for game 1",
-      author: users[1],
-      game: games[0],
-    },
-    {
-      text: "This is the first comment for game 2",
-      author: users[0],
-      game: games[1],
-    },
-  ];
-
   console.log("Creating comments in the db");
+  const commentData = getCommentData(users, games);
   await Comment.create(commentData);
 
   console.log("Giving a user a favourite game");

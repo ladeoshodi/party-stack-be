@@ -37,9 +37,12 @@ async function start() {
   console.log("Connected to the database:", MONGODB_URI);
 
   // listen for incoming requests
-  app.listen(PORT, () => {
+  // return the http object to close it after testing
+  return app.listen(PORT, () => {
     console.log(`Express server running on PORT: ${PORT}`);
   });
 }
 
-start();
+const serverStartPromise = start();
+
+export { serverStartPromise, app };

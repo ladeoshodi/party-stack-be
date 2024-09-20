@@ -10,7 +10,10 @@ function getMongoURI(): string {
   return process.env.MONGODB_URI_PROD as string;
 }
 
-const PORT = process.env.PORT || 3000;
+const PORT =
+  process.env.NODE_ENV === "test"
+    ? process.env.PORT_TEST
+    : process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET as string;
 const MONGODB_URI = getMongoURI();
 
