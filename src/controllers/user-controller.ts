@@ -132,6 +132,24 @@ const userController = {
     }
   },
   async updateCurrentUser(req: Request, res: Response, next: NextFunction) {
+    /* 
+      #swagger.tags = ["User"]
+      #swagger.description = "Update current user"
+      #swagger.requestBody = {
+        content: {
+          "application/json": {
+            schema: {
+              $ref: "#/components/schemas/userSchema"
+            },
+            example: {
+              username: "updatedswaggeruser",
+              email: "updatedswaggeruser@example.com",
+              password: "#Ch@ngePassw0rd",
+            }
+          }
+        }
+      }
+    */
     try {
       const currentUser = await User.findById(req.currentUser).select(
         "+password"
@@ -165,6 +183,10 @@ const userController = {
     }
   },
   async deleteCurrentUser(req: Request, res: Response, next: NextFunction) {
+    /* 
+      #swagger.tags = ["User"]
+      #swagger.description = "Delete current user"
+    */
     try {
       await req.currentUser.deleteOne();
       res.status(204).end();

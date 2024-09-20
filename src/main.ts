@@ -14,11 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 app.use("/api", routes);
-app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerOutput, { explorer: true })
-);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerOutput));
 
 // error handling
 app.use((e: any, req: Request, res: Response, next: NextFunction) => {

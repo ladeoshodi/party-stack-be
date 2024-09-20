@@ -87,6 +87,42 @@
             "description": "OK"
           }
         }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "description": "Update current user",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userSchema"
+              },
+              "example": {
+                "username": "updatedswaggeruser",
+                "email": "updatedswaggeruser@example.com",
+                "password": "#Ch@ngePassw0rd"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "description": "Delete current user",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
       }
     }
   },
