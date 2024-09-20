@@ -74,4 +74,24 @@ describe("Testing User CRUD operations", () => {
     const res = await api.get("/api/user");
     expect(res.status).toBe(StatusCodes.UNAUTHORIZED);
   });
+  test("Should update current user", async () => {
+    // get a token
+    const res = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = res.body.token;
+
+    // get current logged in user
+    const currentUser = await api
+      .put("/api/user")
+      .set("Authorization", token)
+      .send({
+        username: "updatedusername",
+        email: "updatedemail@example.com",
+      });
+    expect(currentUser.status).toBe(StatusCodes.OK);
+    expect(currentUser.body.username).toBe("updatedusername");
+    expect(currentUser.body.email).toBe("updatedemail@example.com");
+  });
 });
