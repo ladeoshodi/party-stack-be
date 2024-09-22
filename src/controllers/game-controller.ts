@@ -17,6 +17,10 @@ const gameController = {
     }
   },
   async getSingleGame(req: Request, res: Response, next: NextFunction) {
+    /* 
+      #swagger.tags = ["Games"]
+      #swagger.description = "Get a single game"
+    */
     try {
       const { gameId } = req.params;
       const game = await Game.findById(gameId).populate("creator");
