@@ -16,7 +16,23 @@ const gameController = {
       next(e);
     }
   },
-  async getSingleGame() {},
+  async getSingleGame(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { gameId } = req.params;
+      const game = await Game.findById(gameId).populate("creator");
+
+      if (!game) {
+        throw { status: 404, message: "Game not found" };
+      }
+      res.json(game);
+    } catch (e) {
+      if (e instanceof Error) {
+        next({ status: 400, message: e.message });
+      } else {
+        next(e);
+      }
+    }
+  },
   async createNewGame() {},
   async updateGame() {},
   async deleteGame() {},

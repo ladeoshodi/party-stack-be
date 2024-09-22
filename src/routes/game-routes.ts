@@ -6,5 +6,6 @@ import secureRoute from "../middleware/secureRoute";
 const gameRouter = Router();
 
 gameRouter.get("/", secureRoute, gameController.getAllGames);
+gameRouter.get("/:gameId", secureRoute, gameController.getSingleGame);
 
 export default gameRouter;
