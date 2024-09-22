@@ -19,6 +19,13 @@ const doc = {
       url: "https://github.com/ladeoshodi",
     },
   },
+  tags: [
+    {
+      name: "User",
+      description: "User API",
+    },
+    { name: "Games", description: "Games API" },
+  ],
   components: {
     schemas: {
       userSchema: {

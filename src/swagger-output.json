@@ -19,6 +19,16 @@
       "description": "Development server"
     }
   ],
+  "tags": [
+    {
+      "name": "User",
+      "description": "User API"
+    },
+    {
+      "name": "Games",
+      "description": "Games API"
+    }
+  ],
   "paths": {
     "/user/register": {
       "post": {
@@ -121,6 +131,19 @@
         "responses": {
           "204": {
             "description": "No Content"
+          }
+        }
+      }
+    },
+    "/games/": {
+      "get": {
+        "tags": [
+          "Games"
+        ],
+        "description": "Get all games",
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }

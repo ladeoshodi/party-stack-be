@@ -3,6 +3,10 @@ import { Game } from "../models/game-model";
 
 const gameController = {
   async getAllGames(req: Request, res: Response, next: NextFunction) {
+    /* 
+      #swagger.tags = ["Games"]
+      #swagger.description = "Get all games"
+    */
     try {
       const games = await Game.find({})
         .sort("title createdAt")
