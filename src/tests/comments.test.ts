@@ -183,3 +183,50 @@ describe("Testing UPDATE Comment", () => {
     expect(commentNotFound).toBeNull();
   });
 });
+
+describe("Testing DELETE Comment", () => {
+  test("Should delete a comment", async () => {
+    // get a token
+    const tokenRes = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = tokenRes.body.token;
+
+    // get a comment
+    const comments = await Comment.find({});
+
+    // delete comment
+    const commentRes = await api
+      .delete(`/api/comments/${comments[0]._id}`)
+      .set("Authorization", token);
+
+    expect(commentRes.status).toBe(StatusCodes.NO_CONTENT);
+  });
+
+  test("Should not delete a comment belonging to a different user", async () => {
+    // get a token
+    const tokenRes = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = tokenRes.body.token;
+
+    // get a different user
+    const user = await User.findOne({ email: "testuser2@example.com" });
+
+    // get a comment by a different user
+    const comment = await Comment.findOne({ author: user });
+
+    // try to delete a comment
+    const commentRes = await api
+      .delete(`/api/comments/${comment?._id}`)
+      .set("Authorization", token);
+
+    // Game should not be deleted
+    const commentNotDeleted = await Comment.findById(comment);
+
+    expect(commentRes.status).toBe(StatusCodes.UNAUTHORIZED);
+    expect(commentNotDeleted).not.toBeNull();
+  });
+});
