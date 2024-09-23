@@ -14,5 +14,6 @@ gameRouter.put(
   secureRoute,
   gameController.updateGame
 );
+gameRouter.delete("/:gameId", secureRoute, gameController.deleteGame);
 
 export default gameRouter;

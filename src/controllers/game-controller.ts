@@ -109,7 +109,39 @@ const gameController = {
       }
     }
   },
-  async deleteGame() {},
+  async deleteGame(req: Request, res: Response, next: NextFunction) {
+    /* 
+      #swagger.tags = ["Games"]
+      #swagger.description = "Delete a game"
+    */
+    try {
+      const { gameId } = req.params;
+
+      // check if game exists
+      const gameToDelete = await Game.findById(gameId);
+      if (!gameToDelete) {
+        throw { status: 404, message: "Task not found" };
+      }
+
+      // check if current user owns the game
+      if (!req.currentUser._id.equals(gameToDelete.creator)) {
+        throw {
+          status: 401,
+          message: "User not unauthorized to delete this resource",
+        };
+      }
+
+      // delete the game
+      await gameToDelete.deleteOne();
+      res.status(204).end();
+    } catch (e) {
+      if (e instanceof Error) {
+        next({ status: 400, message: e.message });
+      } else {
+        next(e);
+      }
+    }
+  },
 };
 
 export default gameController;
