@@ -190,6 +190,37 @@
             "description": "OK"
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Games"
+        ],
+        "description": "Update a game",
+        "parameters": [
+          {
+            "name": "gameId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/gameSchema"
+              }
+            }
+          }
+        }
       }
     }
   },

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Game } from "../models/game-model";
+import gameRouter from "../routes/game-routes";
 
 const gameController = {
   async getAllGames(req: Request, res: Response, next: NextFunction) {
@@ -64,7 +65,50 @@ const gameController = {
       }
     }
   },
-  async updateGame() {},
+  async updateGame(req: Request, res: Response, next: NextFunction) {
+    /* 
+      #swagger.tags = ["Games"]
+      #swagger.description = "Update a game"
+      #swagger.requestBody = {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              $ref: "#/components/schemas/gameSchema"
+            }
+          }
+        }
+      }
+    */
+    try {
+      const { gameId } = req.params;
+
+      // check if game exists
+      const gameToUpdate = await Game.findById(gameId);
+      if (!gameToUpdate) {
+        throw { status: 404, message: "Task not found" };
+      }
+
+      // check if current user owns the game
+      if (!req.currentUser._id.equals(gameToUpdate.creator)) {
+        throw {
+          status: 401,
+          message: "User not unauthorized to update this resource",
+        };
+      }
+
+      // update the game object
+      gameToUpdate.set(req.body);
+      const updatedGame = await gameToUpdate.save();
+      res.json(updatedGame);
+    } catch (e) {
+      if (e instanceof Error) {
+        next({ status: 400, message: e.message });
+      } else {
+        next(e);
+      }
+    }
+  },
   async deleteGame() {},
 };
 
