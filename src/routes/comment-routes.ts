@@ -23,5 +23,10 @@ commentRouter.put(
   secureRoute,
   commentController.updateComment
 );
+commentRouter.delete(
+  "/:commentId",
+  secureRoute,
+  commentController.deleteComment
+);
 
 export default commentRouter;

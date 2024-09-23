@@ -106,7 +106,7 @@ const commentController = {
         };
       }
 
-      // update the game object
+      // update the comment
       commentToUpdate.set(req.body);
       const updatedComment = await commentToUpdate.save();
       res.json(updatedComment);
@@ -118,7 +118,39 @@ const commentController = {
       }
     }
   },
-  async deleteComment(req: Request, res: Response, next: NextFunction) {},
+  async deleteComment(req: Request, res: Response, next: NextFunction) {
+    /* 
+      #swagger.tags = ["Comments"]
+      #swagger.description = "Delete a comment"
+    */
+    try {
+      const { commentId } = req.params;
+
+      // check if the comment exists
+      const commentToDelete = await Comment.findById(commentId);
+      if (!commentToDelete) {
+        throw { status: 404, message: "Comment not found" };
+      }
+
+      // check if current user owns the comment
+      if (!req.currentUser._id.equals(commentToDelete.author)) {
+        throw {
+          status: 401,
+          message: "User not unauthorized to delete this resource",
+        };
+      }
+
+      // delete the comment
+      await commentToDelete.deleteOne();
+      res.status(204).end();
+    } catch (e) {
+      if (e instanceof Error) {
+        next({ status: 400, message: e.message });
+      } else {
+        next(e);
+      }
+    }
+  },
 };
 
 export default commentController;
