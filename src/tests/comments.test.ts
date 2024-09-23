@@ -174,7 +174,7 @@ describe("Testing UPDATE Comment", () => {
         text: "Comment should not be updated",
       });
 
-    // Comment should not be update
+    // comment should not be update
     const commentNotFound = await Comment.findOne({
       text: "Comment should not be updated",
     });
@@ -223,7 +223,7 @@ describe("Testing DELETE Comment", () => {
       .delete(`/api/comments/${comment?._id}`)
       .set("Authorization", token);
 
-    // Game should not be deleted
+    // comment should not be deleted
     const commentNotDeleted = await Comment.findById(comment);
 
     expect(commentRes.status).toBe(StatusCodes.UNAUTHORIZED);
