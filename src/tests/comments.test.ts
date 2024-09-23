@@ -4,8 +4,8 @@ import { afterEachTearDown, afterAllTearDown } from "./lib/tearDown";
 import { app } from "../main";
 import { StatusCodes } from "http-status-codes";
 import { Game } from "../models/game-model";
-import { User } from "../models/user-model";
 import { Comment } from "../models/comment-model";
+import { User } from "../models/user-model";
 
 const api = supertest(app);
 
@@ -124,6 +124,62 @@ describe("Testing POST Comment", () => {
     });
 
     expect(commentRes.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(commentNotFound).toBeNull();
+  });
+});
+
+describe("Testing UPDATE Comment", () => {
+  test("Should update a comment", async () => {
+    // get a token
+    const tokenRes = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = tokenRes.body.token;
+
+    // get a comment
+    const comments = await Comment.find({});
+
+    // update comment
+    const commentRes = await api
+      .put(`/api/comments/${comments[0]._id}`)
+      .set("Authorization", token)
+      .send({
+        text: "This is an updated comment",
+      });
+
+    expect(commentRes.status).toBe(StatusCodes.OK);
+    expect(commentRes.body.text).toBe("This is an updated comment");
+  });
+
+  test("Should not update a comment belonging to a different user", async () => {
+    // get a token
+    const tokenRes = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = tokenRes.body.token;
+
+    // get a different user
+    const user = await User.findOne({ email: "testuser2@example.com" });
+
+    // get a comment by a different user
+    const comment = await Comment.findOne({ author: user });
+
+    // try to update a comment
+    const commentRes = await api
+      .put(`/api/comments/${comment?._id}`)
+      .set("Authorization", token)
+      .send({
+        text: "Comment should not be updated",
+      });
+
+    // Comment should not be update
+    const commentNotFound = await Comment.findOne({
+      text: "Comment should not be updated",
+    });
+
+    expect(commentRes.status).toBe(StatusCodes.UNAUTHORIZED);
     expect(commentNotFound).toBeNull();
   });
 });
