@@ -15,7 +15,7 @@ const favouriteController = {
           $push: { favourites: incomingFavourites },
         },
         { new: true }
-      );
+      ).populate("favourites");
       res.json(updatedUserFavourites);
     } catch (e) {
       console.log(e);
@@ -34,6 +34,14 @@ const favouriteController = {
       #swagger.description = "Remove from User favourites"
     */
     try {
+      const { favouriteId } = req.params;
+
+      await User.updateOne(
+        { _id: req.currentUser },
+        { $pull: { favourites: favouriteId } }
+      );
+
+      res.status(204).end();
     } catch (e) {
       if (e instanceof Error) {
         next({ status: 400, message: e.message });
