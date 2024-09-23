@@ -4,7 +4,7 @@ import { Comment } from "../models/comment-model";
 const commentController = {
   async getAllComments(req: Request, res: Response, next: NextFunction) {
     /* 
-      #swagger.tags = ["Comment"]
+      #swagger.tags = ["Comments"]
       #swagger.description = "Get all comments"
     */
     try {
@@ -21,7 +21,7 @@ const commentController = {
   },
   async getSingleComment(req: Request, res: Response, next: NextFunction) {
     /* 
-      #swagger.tags = ["Comment"]
+      #swagger.tags = ["Comments"]
       #swagger.description = "Get a single comment"
     */
     try {
@@ -45,7 +45,7 @@ const commentController = {
   },
   async createNewComment(req: Request, res: Response, next: NextFunction) {
     /* 
-      #swagger.tags = ["Comment"]
+      #swagger.tags = ["Comments"]
       #swagger.description = "Create a new comment"
       #swagger.requestBody = {
         required: true,
@@ -74,7 +74,50 @@ const commentController = {
       }
     }
   },
-  async updateComment(req: Request, res: Response, next: NextFunction) {},
+  async updateComment(req: Request, res: Response, next: NextFunction) {
+    /* 
+      #swagger.tags = ["Comments"]
+      #swagger.description = "Update a comment"
+      #swagger.requestBody = {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              $ref: "#/components/schemas/commentSchema"
+            }
+          }
+        }
+      }
+    */
+    try {
+      const { commentId } = req.params;
+
+      // check if the comment exists
+      const commentToUpdate = await Comment.findById(commentId);
+      if (!commentToUpdate) {
+        throw { status: 404, message: "Comment not found" };
+      }
+
+      // check if current user owns the comment
+      if (!req.currentUser._id.equals(commentToUpdate.author)) {
+        throw {
+          status: 401,
+          message: "User not unauthorized to update this resource",
+        };
+      }
+
+      // update the game object
+      commentToUpdate.set(req.body);
+      const updatedComment = await commentToUpdate.save();
+      res.json(updatedComment);
+    } catch (e) {
+      if (e instanceof Error) {
+        next({ status: 400, message: e.message });
+      } else {
+        next(e);
+      }
+    }
+  },
   async deleteComment(req: Request, res: Response, next: NextFunction) {},
 };
 

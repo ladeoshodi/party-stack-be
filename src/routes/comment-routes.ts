@@ -17,5 +17,11 @@ commentRouter.post(
   secureRoute,
   commentController.createNewComment
 );
+commentRouter.put(
+  "/:commentId",
+  sanitizeRoute,
+  secureRoute,
+  commentController.updateComment
+);
 
 export default commentRouter;

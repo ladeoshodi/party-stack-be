@@ -251,7 +251,7 @@
     "/comments/": {
       "get": {
         "tags": [
-          "Comment"
+          "Comments"
         ],
         "description": "Get all comments",
         "parameters": [
@@ -271,7 +271,7 @@
       },
       "post": {
         "tags": [
-          "Comment"
+          "Comments"
         ],
         "description": "Create a new comment",
         "responses": {
@@ -298,7 +298,7 @@
     "/comments/{commentId}": {
       "get": {
         "tags": [
-          "Comment"
+          "Comments"
         ],
         "description": "Get a single comment",
         "parameters": [
@@ -314,6 +314,37 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "Update a comment",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/commentSchema"
+              }
+            }
           }
         }
       }
