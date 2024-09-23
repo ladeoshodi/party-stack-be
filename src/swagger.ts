@@ -24,7 +24,14 @@ const doc = {
       name: "User",
       description: "User API",
     },
-    { name: "Games", description: "Games API" },
+    {
+      name: "Games",
+      description: "Games API",
+    },
+    {
+      name: "Comments",
+      description: "Comments API",
+    },
   ],
   components: {
     schemas: {

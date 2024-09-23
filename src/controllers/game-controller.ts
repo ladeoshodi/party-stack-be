@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { Game } from "../models/game-model";
-import gameRouter from "../routes/game-routes";
 
 const gameController = {
   async getAllGames(req: Request, res: Response, next: NextFunction) {
