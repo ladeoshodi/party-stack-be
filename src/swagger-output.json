@@ -27,6 +27,10 @@
     {
       "name": "Games",
       "description": "Games API"
+    },
+    {
+      "name": "Comments",
+      "description": "Comments API"
     }
   ],
   "paths": {
@@ -240,6 +244,28 @@
         "responses": {
           "204": {
             "description": "No Content"
+          }
+        }
+      }
+    },
+    "/comments/": {
+      "get": {
+        "tags": [
+          "Comment"
+        ],
+        "description": "Get all comments",
+        "parameters": [
+          {
+            "name": "game",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
