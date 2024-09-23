@@ -21,7 +21,7 @@ afterAll(async () => {
   await afterAllTearDown();
 });
 
-describe("Testing GET Game", () => {
+describe("Testing GET Comment", () => {
   test("Should get all comments", async () => {
     // get a token
     const tokenRes = await api.post("/api/user/login").send({
@@ -75,5 +75,55 @@ describe("Testing GET Game", () => {
       .set("Authorization", token);
     expect(commentRes.status).toBe(StatusCodes.OK);
     expect(commentRes.body._id).toBe(comments[0]._id.toString());
+  });
+});
+
+describe("Testing POST Comment", () => {
+  test("Should create a new comment", async () => {
+    // get a token
+    const tokenRes = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = tokenRes.body.token;
+
+    // get a game
+    const games = await Game.find({});
+
+    // create a new comment
+    const commentRes = await api
+      .post("/api/comments")
+      .set("Authorization", token)
+      .send({
+        text: "This is a new text comment",
+        game: `${games[0]._id}`,
+      });
+    expect(commentRes.status).toBe(StatusCodes.CREATED);
+    expect(commentRes.body.text).toBe("This is a new text comment");
+  });
+
+  test("Should not create a new comment with missing fields", async () => {
+    // get a token
+    const tokenRes = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = tokenRes.body.token;
+
+    // try to create a new comment
+    const commentRes = await api
+      .post("/api/comments")
+      .set("Authorization", token)
+      .send({
+        text: "This is a new text comment",
+      });
+
+    // Comment should not be created
+    const commentNotFound = await Comment.findOne({
+      title: "This is a new text comment",
+    });
+
+    expect(commentRes.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(commentNotFound).toBeNull();
   });
 });
