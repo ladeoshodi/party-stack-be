@@ -5,6 +5,7 @@ import { app } from "../main";
 import { StatusCodes } from "http-status-codes";
 import { Game } from "../models/game-model";
 import { User } from "../models/user-model";
+import { Comment } from "../models/comment-model";
 
 const api = supertest(app);
 
@@ -57,21 +58,22 @@ describe("Testing GET Game", () => {
     expect(commentsRes.body[0].game._id).toBe(games[0]._id.toString());
   });
 
-  //   test("Should get a single game", async () => {
-  //     // get a token
-  //     const tokenRes = await api.post("/api/user/login").send({
-  //       email: "testuser1@example.com",
-  //       password: "#T3stus3r",
-  //     });
-  //     const token = tokenRes.body.token;
+  test("Should get a single comment", async () => {
+    // get a token
+    const tokenRes = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = tokenRes.body.token;
 
-  //     // query games
-  //     const games = await Game.find({});
+    // query games
+    const comments = await Comment.find({});
 
-  //     const gamesRes = await api
-  //       .get(`/api/games/${games[0]._id}`)
-  //       .set("Authorization", token);
-  //     expect(gamesRes.status).toBe(StatusCodes.OK);
-  //     expect(gamesRes.body._id).toBe(games[0]._id.toString());
-  //   });
+    // get a single comment
+    const commentRes = await api
+      .get(`/api/comments/${comments[0]._id}`)
+      .set("Authorization", token);
+    expect(commentRes.status).toBe(StatusCodes.OK);
+    expect(commentRes.body._id).toBe(comments[0]._id.toString());
+  });
 });
