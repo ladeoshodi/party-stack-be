@@ -160,3 +160,46 @@ describe("Testing UPDATE Game", () => {
     expect(gameNotFound).toBeNull();
   });
 });
+
+describe("Testing DELETE Game", () => {
+  test("Should delete a game", async () => {
+    // get a token
+    const tokenRes = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = tokenRes.body.token;
+
+    // get a game
+    const game = await Game.findOne({ title: "Test Game 1" });
+
+    // delete game
+    const gamesRes = await api
+      .delete(`/api/games/${game?._id}`)
+      .set("Authorization", token);
+    expect(gamesRes.status).toBe(StatusCodes.NO_CONTENT);
+  });
+
+  test("Should not delete a game belonging to a different user", async () => {
+    // get a token
+    const tokenRes = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = tokenRes.body.token;
+
+    // get a game by a different user
+    const game = await Game.findOne({ title: "Test Game 2" });
+
+    // try to update game
+    const gamesRes = await api
+      .put(`/api/games/${game?._id}`)
+      .set("Authorization", token);
+
+    // Game should not be deleted
+    const gameNotDeleted = await Game.findById(game);
+
+    expect(gamesRes.status).toBe(StatusCodes.UNAUTHORIZED);
+    expect(gameNotDeleted).not.toBeNull();
+  });
+});
