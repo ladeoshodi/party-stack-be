@@ -159,6 +159,33 @@ describe("Testing UPDATE Game", () => {
     expect(gamesRes.status).toBe(StatusCodes.UNAUTHORIZED);
     expect(gameNotFound).toBeNull();
   });
+
+  test("Should not update game creator field", async () => {
+    // get a token
+    const tokenRes = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = tokenRes.body.token;
+
+    // get another user
+    const differentUser = await User.findOne({
+      email: "testuser2@example.com",
+    });
+
+    // get a game
+    const game = await Game.findOne({ title: "Test Game 1" });
+
+    // update game
+    const gamesRes = await api
+      .put(`/api/games/${game?._id}`)
+      .set("Authorization", token)
+      .send({
+        creator: differentUser,
+      });
+    expect(gamesRes.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(gamesRes.body.creator).not.toBe(differentUser?._id.toString());
+  });
 });
 
 describe("Testing DELETE Game", () => {

@@ -106,6 +106,16 @@ const commentController = {
         };
       }
 
+      // check if author or game field is in request
+      if (
+        Object.keys(req.body).includes("author") ||
+        Object.keys(req.body).includes("game")
+      ) {
+        throw {
+          status: 400,
+          message: "Not allowed to update the author or game of a comment",
+        };
+      }
       // update the comment
       commentToUpdate.set(req.body);
       const updatedComment = await commentToUpdate.save();

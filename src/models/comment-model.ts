@@ -12,11 +12,13 @@ const commentSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: [true, "The comment author is required"],
+      immutable: true,
     },
     game: {
       type: Schema.Types.ObjectId,
       ref: "Game",
       required: [true, "A Game reference is required"],
+      immutable: true,
     },
   },
   { timestamps: true }

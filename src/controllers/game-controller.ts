@@ -96,6 +96,13 @@ const gameController = {
         };
       }
 
+      // check if creator field is in request
+      if (Object.keys(req.body).includes("creator")) {
+        throw {
+          status: 400,
+          message: "Not allowed to update the creator of a game",
+        };
+      }
       // update the game object
       gameToUpdate.set(req.body);
       const updatedGame = await gameToUpdate.save();

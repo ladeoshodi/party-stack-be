@@ -138,11 +138,13 @@ describe("Testing UPDATE Comment", () => {
     const token = tokenRes.body.token;
 
     // get a comment
-    const comments = await Comment.find({});
+    const comment = await Comment.findOne({
+      text: "This is the first comment for game 1",
+    });
 
     // update comment
     const commentRes = await api
-      .put(`/api/comments/${comments[0]._id}`)
+      .put(`/api/comments/${comment?._id}`)
       .set("Authorization", token)
       .send({
         text: "This is an updated comment",
@@ -182,6 +184,43 @@ describe("Testing UPDATE Comment", () => {
     expect(commentRes.status).toBe(StatusCodes.UNAUTHORIZED);
     expect(commentNotFound).toBeNull();
   });
+
+  test("Should not update the author or game fields in the comment", async () => {
+    // get a token
+    const tokenRes = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = tokenRes.body.token;
+
+    // get another user
+    const differentUser = await User.findOne({
+      email: "testuser2@example.com",
+    });
+
+    // get another game
+    const differentGame = await Game.findOne({
+      title: "Test Game 2",
+    });
+
+    // get a comment
+    const comment = await Comment.findOne({
+      text: "This is the first comment for game 1",
+    });
+
+    // update comment
+    const commentRes = await api
+      .put(`/api/comments/${comment?._id}`)
+      .set("Authorization", token)
+      .send({
+        author: differentUser,
+        game: differentGame,
+      });
+
+    expect(commentRes.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(commentRes.body.author).not.toBe(differentUser?._id.toString());
+    expect(commentRes.body.game).not.toBe(differentGame?._id.toString());
+  });
 });
 
 describe("Testing DELETE Comment", () => {
@@ -194,11 +233,13 @@ describe("Testing DELETE Comment", () => {
     const token = tokenRes.body.token;
 
     // get a comment
-    const comments = await Comment.find({});
+    const comment = await Comment.findOne({
+      text: "This is the first comment for game 1",
+    });
 
     // delete comment
     const commentRes = await api
-      .delete(`/api/comments/${comments[0]._id}`)
+      .delete(`/api/comments/${comment?._id}`)
       .set("Authorization", token);
 
     expect(commentRes.status).toBe(StatusCodes.NO_CONTENT);

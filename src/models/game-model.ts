@@ -13,6 +13,7 @@ const gameSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: [true, "The game creator is required"],
+      immutable: true,
     },
     description: {
       type: String,
