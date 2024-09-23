@@ -33,6 +33,15 @@ const doc = {
         $email: "email of user",
         $password: "password of user",
       },
+      gameSchema: {
+        $title: "Title of the game",
+        imageUrl: "Game image",
+        $creator: "Ref to a user",
+        $description: "Description of the game",
+        $gameSetup: "How to setup the game, tools needed e.t.c",
+        $howToPlay: "How to play the game",
+        rating: 3,
+      },
     },
     securitySchemes: {
       Authorization: {

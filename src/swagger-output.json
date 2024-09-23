@@ -146,6 +146,27 @@
             "description": "OK"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Games"
+        ],
+        "description": "Create a new game",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/gameSchema"
+              }
+            }
+          }
+        }
       }
     },
     "/games/{gameId}": {
@@ -194,6 +215,46 @@
           "username",
           "email",
           "password"
+        ]
+      },
+      "gameSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Title of the game"
+          },
+          "imageUrl": {
+            "type": "string",
+            "example": "Game image"
+          },
+          "creator": {
+            "type": "string",
+            "example": "Ref to a user"
+          },
+          "description": {
+            "type": "string",
+            "example": "Description of the game"
+          },
+          "gameSetup": {
+            "type": "string",
+            "example": "How to setup the game, tools needed e.t.c"
+          },
+          "howToPlay": {
+            "type": "string",
+            "example": "How to play the game"
+          },
+          "rating": {
+            "type": "number",
+            "example": 3
+          }
+        },
+        "required": [
+          "title",
+          "creator",
+          "description",
+          "gameSetup",
+          "howToPlay"
         ]
       }
     },

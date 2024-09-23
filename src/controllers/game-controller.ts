@@ -38,6 +38,20 @@ const gameController = {
     }
   },
   async createNewGame(req: Request, res: Response, next: NextFunction) {
+    /* 
+      #swagger.tags = ["Games"]
+      #swagger.description = "Create a new game"
+      #swagger.requestBody = {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              $ref: "#/components/schemas/gameSchema"
+            }
+          }
+        }
+      }
+    */
     try {
       req.body.creator = req.currentUser._id;
       const newGame = await Game.create(req.body);
