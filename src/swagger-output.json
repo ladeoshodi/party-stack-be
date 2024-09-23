@@ -31,6 +31,10 @@
     {
       "name": "Comments",
       "description": "Comments API"
+    },
+    {
+      "name": "Favourites",
+      "description": "Favourites API"
     }
   ],
   "paths": {
@@ -369,6 +373,56 @@
           }
         }
       }
+    },
+    "/favourites/": {
+      "post": {
+        "tags": [
+          "Favourites"
+        ],
+        "description": "Add to User favourites",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "favourites": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/favourites/{favouriteId}": {
+      "delete": {
+        "tags": [
+          "Favourites"
+        ],
+        "description": "Remove from User favourites",
+        "parameters": [
+          {
+            "name": "favouriteId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
     }
   },
   "components": {
@@ -387,6 +441,15 @@
           "password": {
             "type": "string",
             "example": "password of user"
+          },
+          "favourites": {
+            "type": "array",
+            "example": [
+              "Reference to a Game"
+            ],
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": [

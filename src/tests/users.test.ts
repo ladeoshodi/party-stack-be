@@ -3,6 +3,7 @@ import setup from "./lib/setup";
 import { afterEachTearDown, afterAllTearDown } from "./lib/tearDown";
 import { app } from "../main";
 import { StatusCodes } from "http-status-codes";
+import { Game } from "../models/game-model";
 
 const api = supertest(app);
 
@@ -69,11 +70,13 @@ describe("Testing User CRUD operations", () => {
     expect(currentUser.status).toBe(StatusCodes.OK);
     expect(currentUser.body.username).toBe("testuser1");
   });
+
   test("Should not get current user if not logged in", async () => {
     // get current logged in user
     const res = await api.get("/api/user");
     expect(res.status).toBe(StatusCodes.UNAUTHORIZED);
   });
+
   test("Should update current user", async () => {
     // get a token
     const res = await api.post("/api/user/login").send({
@@ -94,6 +97,7 @@ describe("Testing User CRUD operations", () => {
     expect(currentUser.body.username).toBe("updatedusername");
     expect(currentUser.body.email).toBe("updatedemail@example.com");
   });
+
   test("Should delete current user", async () => {
     // get a token
     const res = await api.post("/api/user/login").send({

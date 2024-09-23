@@ -32,6 +32,10 @@ const doc = {
       name: "Comments",
       description: "Comments API",
     },
+    {
+      name: "Favourites",
+      description: "Favourites API",
+    },
   ],
   components: {
     schemas: {
@@ -39,6 +43,7 @@ const doc = {
         $username: "Username of user",
         $email: "email of user",
         $password: "password of user",
+        favourites: ["Reference to a Game"],
       },
       gameSchema: {
         $title: "Title of the game",
