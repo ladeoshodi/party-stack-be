@@ -11,5 +11,11 @@ commentRouter.get(
   secureRoute,
   commentController.getSingleComment
 );
+commentRouter.post(
+  "/",
+  sanitizeRoute,
+  secureRoute,
+  commentController.createNewComment
+);
 
 export default commentRouter;

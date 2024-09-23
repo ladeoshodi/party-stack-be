@@ -49,6 +49,11 @@ const doc = {
         $howToPlay: "How to play the game",
         rating: 3,
       },
+      commentSchema: {
+        $text: "Comment for a game",
+        $author: "Ref to a user",
+        $game: "Ref to a game",
+      },
     },
     securitySchemes: {
       Authorization: {

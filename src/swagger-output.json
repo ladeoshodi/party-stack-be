@@ -268,6 +268,31 @@
             "description": "OK"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Comment"
+        ],
+        "description": "Create a new comment",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/commentSchema"
+              },
+              "example": {
+                "text": "This is a comment for a game",
+                "game": "Ref to a game"
+              }
+            }
+          }
+        }
       }
     },
     "/comments/{commentId}": {
@@ -356,6 +381,28 @@
           "description",
           "gameSetup",
           "howToPlay"
+        ]
+      },
+      "commentSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "Comment for a game"
+          },
+          "author": {
+            "type": "string",
+            "example": "Ref to a user"
+          },
+          "game": {
+            "type": "string",
+            "example": "Ref to a game"
+          }
+        },
+        "required": [
+          "text",
+          "author",
+          "game"
         ]
       }
     },

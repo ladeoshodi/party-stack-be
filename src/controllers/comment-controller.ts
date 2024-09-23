@@ -43,7 +43,37 @@ const commentController = {
       }
     }
   },
-  async createNewComment(req: Request, res: Response, next: NextFunction) {},
+  async createNewComment(req: Request, res: Response, next: NextFunction) {
+    /* 
+      #swagger.tags = ["Comment"]
+      #swagger.description = "Create a new comment"
+      #swagger.requestBody = {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              $ref: "#/components/schemas/commentSchema"
+            },
+            example: {
+              text: "This is a comment for a game",
+              game: "Ref to a game"
+            }
+          }
+        }
+      }
+    */
+    try {
+      req.body.author = req.currentUser._id;
+      const newComment = await Comment.create(req.body);
+      res.status(201).json(newComment);
+    } catch (e) {
+      if (e instanceof Error) {
+        next({ status: 400, message: e.message });
+      } else {
+        next(e);
+      }
+    }
+  },
   async updateComment(req: Request, res: Response, next: NextFunction) {},
   async deleteComment(req: Request, res: Response, next: NextFunction) {},
 };
