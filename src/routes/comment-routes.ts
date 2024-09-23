@@ -6,5 +6,10 @@ import secureRoute from "../middleware/secureRoute";
 const commentRouter = Router();
 
 commentRouter.get("/", secureRoute, commentController.getAllComments);
+commentRouter.get(
+  "/:commentId",
+  secureRoute,
+  commentController.getSingleComment
+);
 
 export default commentRouter;

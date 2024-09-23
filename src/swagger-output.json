@@ -269,6 +269,29 @@
           }
         }
       }
+    },
+    "/comments/{commentId}": {
+      "get": {
+        "tags": [
+          "Comment"
+        ],
+        "description": "Get a single comment",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
