@@ -37,7 +37,19 @@ const gameController = {
       }
     }
   },
-  async createNewGame() {},
+  async createNewGame(req: Request, res: Response, next: NextFunction) {
+    try {
+      req.body.creator = req.currentUser._id;
+      const newGame = await Game.create(req.body);
+      res.status(201).json(newGame);
+    } catch (e) {
+      if (e instanceof Error) {
+        next({ status: 400, message: e.message });
+      } else {
+        next(e);
+      }
+    }
+  },
   async updateGame() {},
   async deleteGame() {},
 };
