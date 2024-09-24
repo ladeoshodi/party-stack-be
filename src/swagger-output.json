@@ -418,8 +418,8 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "204": {
+            "description": "No Content"
           }
         }
       }
@@ -441,6 +441,10 @@
           "password": {
             "type": "string",
             "example": "password of user"
+          },
+          "imageUrl": {
+            "type": "string",
+            "example": "User Image"
           },
           "favourites": {
             "type": "array",

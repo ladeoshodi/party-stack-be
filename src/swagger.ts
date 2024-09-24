@@ -43,6 +43,7 @@ const doc = {
         $username: "Username of user",
         $email: "email of user",
         $password: "password of user",
+        imageUrl: "User Image",
         favourites: ["Reference to a Game"],
       },
       gameSchema: {
