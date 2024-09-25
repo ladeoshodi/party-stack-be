@@ -36,7 +36,10 @@ export default function secureRoute(
       const jwtPayload = payload as JWTPayload;
       const userId = jwtPayload.userId;
 
-      const user = await User.findById(userId).populate("favourites");
+      const user = await User.findById(userId).populate({
+        path: "favourites",
+        populate: { path: "creator" },
+      });
       if (!user) {
         throw {
           status: 401,
