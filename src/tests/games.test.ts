@@ -34,6 +34,25 @@ describe("Testing GET Game", () => {
     expect(gamesRes.body.length).toBeTruthy();
   });
 
+  test("Should get all games by a user", async () => {
+    // get a token
+    const tokenRes = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = tokenRes.body.token;
+
+    // get a user
+    const user = await User.findOne({ email: "testuser1@example.com" });
+
+    const gamesRes = await api
+      .get("/api/games?creator=true")
+      .set("Authorization", token);
+    expect(gamesRes.status).toBe(StatusCodes.OK);
+    expect(gamesRes.body.length).toBeTruthy();
+    expect(gamesRes.body[0].creator.username).toBe(user?.username);
+  });
+
   test("Should get a single game", async () => {
     // get a token
     const tokenRes = await api.post("/api/user/login").send({

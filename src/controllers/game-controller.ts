@@ -8,7 +8,10 @@ const gameController = {
       #swagger.description = "Get all games"
     */
     try {
-      const games = await Game.find({})
+      const { creator } = req.query;
+      const searchQuery = creator ? { creator: req.currentUser._id } : {};
+
+      const games = await Game.find(searchQuery)
         .sort("title -updatedAt")
         .populate("creator");
       res.json(games);

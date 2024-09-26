@@ -149,6 +149,15 @@
           "Games"
         ],
         "description": "Get all games",
+        "parameters": [
+          {
+            "name": "creator",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"

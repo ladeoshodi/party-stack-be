@@ -98,7 +98,7 @@ describe("Testing GET Comment", () => {
     expect(commentsRes.status).toBe(StatusCodes.OK);
     expect(commentsRes.body.length).toBeTruthy();
     expect(commentsRes.body[0].game._id).toBe(game?._id.toString());
-    expect(commentsRes.body[0].author._id).toBe(user?._id.toString());
+    expect(commentsRes.body[0].author.username).toBe(user?.username);
   });
 
   test("Should get a single comment", async () => {
