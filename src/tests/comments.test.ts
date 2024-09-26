@@ -47,15 +47,58 @@ describe("Testing GET Comment", () => {
     const token = tokenRes.body.token;
 
     // get a game
-    const games = await Game.find({});
+    const game = await Game.findOne({ title: "Test Game 1" });
 
     // get all comments
     const commentsRes = await api
-      .get(`/api/comments?game=${games[0]._id}`)
+      .get(`/api/comments?game=${game?._id}`)
       .set("Authorization", token);
     expect(commentsRes.status).toBe(StatusCodes.OK);
     expect(commentsRes.body.length).toBeTruthy();
-    expect(commentsRes.body[0].game._id).toBe(games[0]._id.toString());
+    expect(commentsRes.body[0].game._id).toBe(game?._id.toString());
+  });
+
+  test("Should get all comments for a user", async () => {
+    // get a token
+    const tokenRes = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = tokenRes.body.token;
+
+    // get a user
+    const user = await User.findOne({ email: "testuser1@example.com" });
+
+    // get all comments
+    const commentsRes = await api
+      .get("/api/comments?author=true")
+      .set("Authorization", token);
+    expect(commentsRes.status).toBe(StatusCodes.OK);
+    expect(commentsRes.body.length).toBeTruthy();
+    expect(commentsRes.body[0].author._id).toBe(user?._id.toString());
+  });
+
+  test("Should get all comments for a user for a game", async () => {
+    // get a token
+    const tokenRes = await api.post("/api/user/login").send({
+      email: "testuser1@example.com",
+      password: "#T3stus3r",
+    });
+    const token = tokenRes.body.token;
+
+    // get a game
+    const game = await Game.findOne({ title: "Test Game 1" });
+    // get a user
+    const user = await User.findOne({ email: "testuser1@example.com" });
+
+    // get all comments
+    const commentsRes = await api
+      .get(`/api/comments?game=${game?._id}&?author=true`)
+      .set("Authorization", token);
+    expect(commentsRes.status).toBe(StatusCodes.OK);
+    expect(commentsRes.body.length).toBeTruthy();
+    expect(commentsRes.body[0].game._id).toBe(game?._id.toString());
+    expect(commentsRes.body[0].author._id).toBe(user?._id.toString());
   });
 
   test("Should get a single comment", async () => {

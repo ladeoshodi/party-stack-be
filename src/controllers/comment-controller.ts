@@ -8,8 +8,21 @@ const commentController = {
       #swagger.description = "Get all comments"
     */
     try {
-      const { game } = req.query;
-      const searchQuery = game ? { game } : {};
+      interface ISearchQuery {
+        game?: string;
+        author?: string;
+      }
+
+      const { game, author } = req.query;
+      const searchQuery: ISearchQuery = {};
+
+      if (game) {
+        searchQuery.game = game as string;
+      }
+
+      if (author) {
+        searchQuery.author = req.currentUser._id;
+      }
 
       const comments = await Comment.find(searchQuery)
         .sort("-updatedAt")

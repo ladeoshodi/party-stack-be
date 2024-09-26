@@ -265,6 +265,13 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "author",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
