@@ -18,8 +18,6 @@ const favouriteController = {
       ).populate("favourites");
       res.json(updatedUserFavourites);
     } catch (e) {
-      console.log(e);
-
       if (e instanceof Error) {
         next({ status: 400, message: e.message });
       } else {
