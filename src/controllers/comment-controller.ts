@@ -12,7 +12,7 @@ const commentController = {
       const searchQuery = game ? { game } : {};
 
       const comments = await Comment.find(searchQuery)
-        .sort("-createdAt")
+        .sort("-updatedAt")
         .populate(["author", "game"]);
       res.json(comments);
     } catch (e) {

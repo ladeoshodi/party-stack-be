@@ -9,7 +9,7 @@ const gameController = {
     */
     try {
       const games = await Game.find({})
-        .sort("title createdAt")
+        .sort("title -updatedAt")
         .populate("creator");
       res.json(games);
     } catch (e) {
