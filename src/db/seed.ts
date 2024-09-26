@@ -31,8 +31,8 @@ function getGameData(users: any[]) {
       imageUrl: "https://images.unsplash.com/photo-1522069213448-443a614da9b6",
       creator: users[0],
       description: "This is a description for game 1",
-      gameSetup: "This is the setup for game 1",
-      howToPlay: "This is how to play game 1",
+      gameSetup: "This is the setup for game 1 \nStep 1 \nStep 2 \n Step 3 ",
+      howToPlay: "This is how to play game 1 \nStep 1 \nStep 2 \n Step 3",
       rating: 3,
     },
     {
@@ -40,8 +40,8 @@ function getGameData(users: any[]) {
       imageUrl: "https://images.unsplash.com/photo-1642056446796-8c7d1dcb630b",
       creator: users[1],
       description: "This is a description for game 2",
-      gameSetup: "This is the setup for game 2",
-      howToPlay: "This is how to play game 2",
+      gameSetup: "This is the setup for game 2 \nStep 1 \nStep 2 \n Step 3",
+      howToPlay: "This is how to play game 2 \nStep 1 \nStep 2 \n Step 3",
       rating: 4,
     },
   ];
@@ -50,14 +50,16 @@ function getGameData(users: any[]) {
 // user data
 const userData = [
   {
-    username: "seeduser1",
-    email: "seeduser@example.com",
-    password: "#S33dus3r",
+    username: "testuser1",
+    email: "seeduser1@example.com",
+    password: "#T3stUs3r",
+    imageUrl: "https://images.unsplash.com/photo-1640960543409-dbe56ccc30e2",
   },
   {
-    username: "seeduser2",
+    username: "testuser2",
     email: "seeduser2@example.com",
-    password: "#S33dus3r",
+    password: "#T3stUs3r",
+    imageUrl: "https://images.unsplash.com/photo-1640951613773-54706e06851d",
   },
 ];
 
