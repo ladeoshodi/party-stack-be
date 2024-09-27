@@ -14,7 +14,15 @@ app.use(cors());
 
 // routes
 app.use("/api", routes);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerOutput));
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerOutput, {
+    swaggerOptions: {
+      url: "/api-docs/swagger-output.json",
+    },
+  })
+);
 
 // error handling
 app.use((e: any, req: Request, res: Response, next: NextFunction) => {
