@@ -17,6 +17,10 @@
     {
       "url": "http://localhost:3000/api",
       "description": "Development server"
+    },
+    {
+      "url": "https://party-stack-be.netlify.app/api",
+      "description": "Production server"
     }
   ],
   "tags": [

@@ -72,6 +72,10 @@ const doc = {
   security: [{ Authorization: [] }],
   servers: [
     { url: `http://localhost:${PORT}/api`, description: "Development server" },
+    {
+      url: `https://party-stack-be.netlify.app/api`,
+      description: "Production server",
+    },
   ],
 };
 
