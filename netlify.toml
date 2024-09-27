@@ -7,3 +7,9 @@
   from = "/api/*"
   status = 200
   to = "/.netlify/functions/api/:splat"
+
+[[redirects]]
+  force = true
+  from = "/api-docs"
+  status = 200
+  to = "/.netlify/functions/api/:splat"
