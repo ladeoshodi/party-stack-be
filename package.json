@@ -2,12 +2,12 @@
   "name": "party-stack-be",
   "private": true,
   "version": "0.0.0",
-  "main": "dist/main.js",
+  "main": "dist/src/main.js",
   "scripts": {
     "dev": "tsx watch src/main.ts",
-    "start": "node dist/main.js",
+    "start": "node dist/src/main.js",
     "build": "tsc",
-    "seed": "npm run build && node dist/db/seed.js",
+    "seed": "npm run build && node dist/src/db/seed.js",
     "swagger-autogen": "tsx src/swagger.ts",
     "test": "cross-env NODE_ENV=test jest --testTimeout=5000 --detectOpenHandles --forceExit"
   },

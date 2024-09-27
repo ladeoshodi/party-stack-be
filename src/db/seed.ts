@@ -51,13 +51,13 @@ function getGameData(users: any[]) {
 const userData = [
   {
     username: "testuser1",
-    email: "seeduser1@example.com",
+    email: "testuser1@example.com",
     password: "#T3stUs3r",
     imageUrl: "https://images.unsplash.com/photo-1640960543409-dbe56ccc30e2",
   },
   {
     username: "testuser2",
-    email: "seeduser2@example.com",
+    email: "testuser2@example.com",
     password: "#T3stUs3r",
     imageUrl: "https://images.unsplash.com/photo-1640951613773-54706e06851d",
   },
@@ -65,7 +65,7 @@ const userData = [
 
 async function seed() {
   await mongoose.connect(MONGODB_URI);
-  console.log("Connected to the database! 🔥");
+  console.log(`Connected to the database! 🔥`);
 
   // delete all existing data
   console.log("Wiping database clean");
