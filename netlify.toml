@@ -12,4 +12,4 @@
   force = true
   from = "/api-docs/*"
   status = 200
-  to = "/.netlify/functions/api/:splat"
+  to = "/swagger-static.html"

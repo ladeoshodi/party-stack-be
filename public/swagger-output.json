@@ -1,0 +1,561 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Party Stack API with Swagger",
+    "version": "1.0.0",
+    "description": "This is the API documentation for Party Stack API",
+    "license": {
+      "name": "Licensed Under MIT",
+      "url": "https://spdx.org/licenses/MIT.html"
+    },
+    "contact": {
+      "name": "Lade Oshodi",
+      "url": "https://github.com/ladeoshodi"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api",
+      "description": "Development server"
+    },
+    {
+      "url": "https://party-stack-be.netlify.app/api",
+      "description": "Production server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "User",
+      "description": "User API"
+    },
+    {
+      "name": "Games",
+      "description": "Games API"
+    },
+    {
+      "name": "Comments",
+      "description": "Comments API"
+    },
+    {
+      "name": "Favourites",
+      "description": "Favourites API"
+    }
+  ],
+  "paths": {
+    "/user/register": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Register a new user",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userSchema"
+              },
+              "example": {
+                "username": "swaggeruser",
+                "email": "swaggeruser@example.com",
+                "password": "#Passw0rd",
+                "passwordConfirmation": "#Passw0rd"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Login a user",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userSchema"
+              },
+              "example": {
+                "email": "swaggeruser@example.com",
+                "password": "#Passw0rd"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Get current user",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "description": "Update current user",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userSchema"
+              },
+              "example": {
+                "username": "updatedswaggeruser",
+                "email": "updatedswaggeruser@example.com",
+                "password": "#Ch@ngePassw0rd"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "description": "Delete current user",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/games/": {
+      "get": {
+        "tags": [
+          "Games"
+        ],
+        "description": "Get all games",
+        "parameters": [
+          {
+            "name": "creator",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Games"
+        ],
+        "description": "Create a new game",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/gameSchema"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/{gameId}": {
+      "get": {
+        "tags": [
+          "Games"
+        ],
+        "description": "Get a single game",
+        "parameters": [
+          {
+            "name": "gameId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Games"
+        ],
+        "description": "Update a game",
+        "parameters": [
+          {
+            "name": "gameId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/gameSchema"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Games"
+        ],
+        "description": "Delete a game",
+        "parameters": [
+          {
+            "name": "gameId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/comments/": {
+      "get": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "Get all comments",
+        "parameters": [
+          {
+            "name": "game",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "author",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "Create a new comment",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/commentSchema"
+              },
+              "example": {
+                "text": "This is a comment for a game",
+                "game": "Ref to a game"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments/{commentId}": {
+      "get": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "Get a single comment",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "Update a comment",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/commentSchema"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "Delete a comment",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/favourites/": {
+      "post": {
+        "tags": [
+          "Favourites"
+        ],
+        "description": "Add to User favourites",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "favourites": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/favourites/{favouriteId}": {
+      "delete": {
+        "tags": [
+          "Favourites"
+        ],
+        "description": "Remove from User favourites",
+        "parameters": [
+          {
+            "name": "favouriteId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "userSchema": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "Username of user"
+          },
+          "email": {
+            "type": "string",
+            "example": "email of user"
+          },
+          "password": {
+            "type": "string",
+            "example": "password of user"
+          },
+          "imageUrl": {
+            "type": "string",
+            "example": "User Image"
+          },
+          "favourites": {
+            "type": "array",
+            "example": [
+              "Reference to a Game"
+            ],
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "username",
+          "email",
+          "password"
+        ]
+      },
+      "gameSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Title of the game"
+          },
+          "imageUrl": {
+            "type": "string",
+            "example": "Game image"
+          },
+          "creator": {
+            "type": "string",
+            "example": "Ref to a user"
+          },
+          "description": {
+            "type": "string",
+            "example": "Description of the game"
+          },
+          "gameSetup": {
+            "type": "string",
+            "example": "How to setup the game, tools needed e.t.c"
+          },
+          "howToPlay": {
+            "type": "string",
+            "example": "How to play the game"
+          },
+          "rating": {
+            "type": "number",
+            "example": 3
+          }
+        },
+        "required": [
+          "title",
+          "creator",
+          "description",
+          "gameSetup",
+          "howToPlay"
+        ]
+      },
+      "commentSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "Comment for a game"
+          },
+          "author": {
+            "type": "string",
+            "example": "Ref to a user"
+          },
+          "game": {
+            "type": "string",
+            "example": "Ref to a game"
+          }
+        },
+        "required": [
+          "text",
+          "author",
+          "game"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "Authorization": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "Authorization": []
+    }
+  ]
+}
