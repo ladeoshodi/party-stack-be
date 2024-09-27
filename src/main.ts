@@ -24,7 +24,7 @@ app.use((e: any, req: Request, res: Response, next: NextFunction) => {
     console.error(e);
     res
       .status(500)
-      .json({ message: "An error occured, please try again later" });
+      .json({ message: "An error occurred, please try again later" });
   }
 });
 
