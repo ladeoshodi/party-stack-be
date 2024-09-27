@@ -65,7 +65,7 @@ const userData = [
 
 async function seed() {
   await mongoose.connect(MONGODB_URI);
-  console.log(`Connected to the database! 🔥`);
+  console.log("Connected to the database! 🔥", MONGODB_URI);
 
   // delete all existing data
   console.log("Wiping database clean");

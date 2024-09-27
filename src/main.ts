@@ -8,9 +8,9 @@ import { MONGODB_URI, PORT } from "./config/environment";
 
 // middlewares
 const app = express();
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // routes
 app.use("/api", routes);
