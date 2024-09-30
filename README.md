@@ -1,9 +1,19 @@
+![alt text](readme-assets/GA-logo.png)
+
 # Party Stack API
 
-## Documentation
+##### An online repository of indoor party games
 
-Development: [Party Stack API (Swagger)](http://localhost:3000/api-docs/)
-Production: [Party Stack API (Swagger)](https://party-stack-api.netlify.app/api-docs/)
+## Overview
+
+This project was developed independently over the course of one week, utilizing a ReactJS frontend and a Node.js/Express backend.
+
+![alt text](readme-assets/swagger.png)
+
+#### Visit the Documentation
+
+Development: [Party Stack API (Swagger)](http://localhost:3000/api-docs/) (LocalHost)
+Production: [Party Stack API (Swagger)](https://party-stack-api.netlify.app/api-docs/) [coming soon ...]
 
 ## Technologies
 
@@ -11,3 +21,5 @@ Production: [Party Stack API (Swagger)](https://party-stack-api.netlify.app/api-
 - Express
 - JWT
 - Bcrypt
+- Jest
+- Supertest
