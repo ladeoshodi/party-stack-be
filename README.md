@@ -23,3 +23,5 @@ Production: [Party Stack API (Swagger)](https://party-stack-api.netlify.app/api-
 - Bcrypt
 - Jest
 - Supertest
+
+_You can find the [frontend deployment here](https://github.com/ladeoshodi/party-stack-fe)_
